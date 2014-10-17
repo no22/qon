@@ -37,7 +37,8 @@
     module: function(name, deps, factory) {
       if (!factory) {
         factory = deps;
-        deps = factory.toString().match(FNARGS)[1].replace(COMMENTS,"").replace(SPACES,"").split(',');
+        var dependency = factory.toString().match(FNARGS)[1].replace(COMMENTS,"").replace(SPACES,"");
+        deps = dependency === '' ? [] : dependency.split(',');
       }
       this.factories[name] = { deps: deps, factory: factory };
       if (this.modules.hasOwnProperty(name)) delete this.modules[name];
