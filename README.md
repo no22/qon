@@ -112,4 +112,4 @@ app.module('Bar', ['$_Foo'], function(postponedFooFactory) {
 License
 ----------------------------------------------------------------------
 
-Copyright (c) 2014 Hiroyuki OHARA Licensed under the MIT license.
+Copyright (c) 2014, 2015 Hiroyuki OHARA Licensed under the MIT license.
