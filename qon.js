@@ -3,9 +3,9 @@
  *
  * qon.js is a tiny dependency injection library that has angularjs flavor but a requirejs-like syntax.
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Hiroyuki OHARA <Hiroyuki.no22@gmail.com>
- * @copyright (c) 2014 Hiroyuki OHARA
+ * @copyright (c) 2014, 2015 Hiroyuki OHARA
  * @see https://github.com/no22/qon
  * @license MIT
  */
@@ -20,7 +20,8 @@
 })(this, "qon", function() {
   "use strict";
   var SPACES = /\s+/mg, COMMENTS = /(?:\/\*[\s\S]*?\*\/|\/\/.*$)/mg,
-    FNARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
+    FNARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
+    root = this || (0, eval)('this');
   function Container(parent) {
     this.factories = {};
     this.modules = {};
@@ -100,5 +101,9 @@
   for (var k in methods) {
     Container.prototype[k] = methods[k];
   }
-  return { Container: Container, di: di };
+  var app = di(root), qon = { Container: Container, di: di, app: app };
+  ['module', 'resolve', 'inject', 'run'].forEach(function(k){
+    qon[k] = methods[k].bind(app);
+  });
+  return qon;
 });
